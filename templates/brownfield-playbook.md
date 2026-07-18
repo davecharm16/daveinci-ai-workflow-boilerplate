@@ -6,10 +6,10 @@
 > populated knowledge base, then clean up. Follow the stages in order. Use subagents for the parallel
 > work. When done, delete `knowledge/_intake/` and this file.
 >
-> This repo inherits the workflow **baseline** from the parent boilerplate `CLAUDE.md` automatically
-> (Claude Code loads ancestor CLAUDE.md files at launch), as long as the repo sits inside the
-> `daveinci-ai-workflow-boilerplate` umbrella folder. If it doesn't, move it there first so the baseline
-> applies. Nothing was added to this repo's own `CLAUDE.md`.
+> This repo is becoming a **self-contained daVinci shell**: it now has the `knowledge/` base, and the
+> canonical workflow is staged at `_intake/workflow-baseline.md`. If the repo had no `CLAUDE.md`, one was
+> already stamped (full workflow + project-facts). If it already had one, it was left untouched — you
+> merge the baseline into it in Stage 0, with the repo's own rules winning on conflict.
 
 ## Governing rule — don't boil the ocean
 
@@ -25,26 +25,25 @@ deep, capture the map and the open questions, not every detail.
 - `existing-docs/` — root `*.md`, `docs/`, `ADR/` copied for reference.
 - `GRAPH_REPORT.md` / `graph.json` at repo root — the graphify code graph (if graphify was available;
   if not, run `/graphify .` yourself first).
-- The repo **keeps its own `CLAUDE.md` untouched** — it inherits the baseline from the parent umbrella via
-  directory nesting, so there is nothing to link or merge. The original CLAUDE.md is also copied to
-  `_intake/existing-rules/CLAUDE.md.orig` for reference during reconciliation.
+- `_intake/workflow-baseline.md` — the canonical daVinci workflow to merge into this repo's `CLAUDE.md`.
+- The repo's original `CLAUDE.md` (if any) is at `_intake/existing-rules/CLAUDE.md.orig`.
 
 ---
 
-## Stage 0 — Reconcile the repo's OWN rules (not the baseline)
+## Stage 0 — Make the CLAUDE.md self-contained
 
-The baseline is already inherited from the parent umbrella — do NOT copy workflow rules into the repo's
-CLAUDE.md. Your job here is only the repo's *project-specific* material:
+Goal: one `CLAUDE.md` that has the full workflow baseline **and** this repo's real project facts/rules.
 
-1. Fill the three project-fact blocks in `CLAUDE.md` (Project status / Commands / Code layout) from what
-   you learn in Stage 1.
-2. Go through `_intake/existing-rules/` (the old CLAUDE.md, Cursor rules, Copilot instructions, etc.) and
-   pull out **genuinely project-specific** rules — ones the code actually follows that the baseline doesn't
-   cover. Put them in `CLAUDE.md` under "Project-specific rule overrides" (or promote to `best-practices/`
-   in Stage 3). Skip anything the baseline already says — the repo inherits that from the umbrella;
-   duplicating it just risks conflicts.
-3. **De-dupe against the user's global `~/.claude/CLAUDE.md`** — if a rule is already global, don't repeat
-   it in the project file either.
+1. If a `CLAUDE.md` was already stamped by the tool (the repo had none), just fill its three project-fact
+   blocks (Project status / Commands / Code layout) from what you learn in Stage 1 — the baseline is
+   already in it.
+2. If the repo had its **own** `CLAUDE.md` (left untouched), merge `_intake/workflow-baseline.md` into it:
+   keep the repo's existing project facts and rules, append the baseline workflow, and where the repo's
+   own rule conflicts with a baseline rule, **the repo's rule wins** — put it after the baseline or note
+   the override explicitly.
+3. Pull any genuinely project-specific rules out of `_intake/existing-rules/` (Cursor rules, Copilot
+   instructions, old CLAUDE.md) into the repo's CLAUDE.md. **De-dupe against the user's global
+   `~/.claude/CLAUDE.md`** — don't repeat a rule that's already global.
 
 ## Stage 1 — Map the system as-is
 

@@ -75,9 +75,21 @@ if (fs.existsSync(path.join(target, 'docs'))) {
   fs.cpSync(path.join(target, 'docs'), path.join(INTAKE, 'existing-docs', 'docs'), { recursive: true });
 }
 
-// --- 3. install the synthesis playbook --------------------------------------
+// --- 3. install the synthesis playbook + the baseline (for the merge) -------
 fs.copyFileSync(path.join(PKG_ROOT, 'templates', 'brownfield-playbook.md'),
   path.join(INTAKE, 'ADOPTION-PLAYBOOK.md'));
+fs.copyFileSync(path.join(PKG_ROOT, 'templates', 'workflow-baseline.md'),
+  path.join(INTAKE, 'workflow-baseline.md'));
+
+// If the repo has no CLAUDE.md, stamp a self-contained one now (facts + full baseline).
+// If it already has one, leave it — the playbook merges the baseline in, project rules winning.
+const targetClaude = path.join(target, 'CLAUDE.md');
+if (!fs.existsSync(targetClaude)) {
+  const facts = fs.readFileSync(path.join(PKG_ROOT, 'templates', 'project-facts.md'), 'utf8');
+  const baseline = fs.readFileSync(path.join(PKG_ROOT, 'templates', 'workflow-baseline.md'), 'utf8');
+  fs.writeFileSync(targetClaude, `${facts.trimEnd()}\n\n${baseline.trimStart()}`);
+  log('→ no CLAUDE.md — stamped a self-contained one (full workflow + project-facts placeholders)');
+}
 
 // --- 4. graphify (best-effort) ----------------------------------------------
 try {
@@ -99,25 +111,8 @@ try {
   }
 } catch { /* non-fatal */ }
 
-// --- umbrella check ---------------------------------------------------------
-function underUmbrella(startDir) {
-  let dir = startDir;
-  while (true) {
-    if (dir === PKG_ROOT) return true;
-    const up = path.dirname(dir);
-    if (up === dir) return false;
-    dir = up;
-  }
-}
-const inherits = underUmbrella(target);
-
 // --- report -----------------------------------------------------------------
-console.log('\n✓ Mechanical adoption done.');
-if (!inherits) {
-  console.log('\n  ⚠ This repo is NOT under the boilerplate umbrella, so it will not inherit the');
-  console.log('    baseline automatically. Move it inside your daveinci-ai-workflow-boilerplate');
-  console.log('    folder so the parent CLAUDE.md applies (Claude Code walks up the directory tree).');
-}
+console.log('\n✓ Mechanical adoption done. The repo now carries the daVinci shell (knowledge/ + workflow).');
 console.log('\nNext — the reasoning pass, inside the repo:');
 console.log(`  cd ${targetArg}`);
 console.log('  # open Claude Code, then: "Follow knowledge/_intake/ADOPTION-PLAYBOOK.md"');
