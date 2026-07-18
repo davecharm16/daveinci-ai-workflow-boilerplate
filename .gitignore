@@ -1,0 +1,21 @@
+# ── The boilerplate is a git repo that tracks ONLY its own shared config. ──
+# Project repos live here as subfolders and stay their own independent git repos,
+# so we ignore everything at the top level and re-include just the boilerplate's files.
+
+/*
+!/.gitignore
+!/README.md
+!/CLAUDE.md
+!/package.json
+!/bin/
+!/templates/
+!/knowledge/
+
+# node (in case the boilerplate itself ever installs deps)
+node_modules/
+
+# OS / editor cruft (applies anywhere)
+.DS_Store
+*.swp
+.idea/
+.vscode/

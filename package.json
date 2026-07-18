@@ -1,0 +1,35 @@
+{
+  "name": "daveinci-ai-workflow-boilerplate",
+  "version": "0.1.0",
+  "description": "Umbrella boilerplate that gives every project a consistent Claude Code workflow — a baseline CLAUDE.md, a knowledge base, and graphify. Scaffold new projects with daveinci-generate; retrofit existing ones with daveinci-adopt.",
+  "bin": {
+    "daveinci-generate": "bin/daveinci-generate.js",
+    "daveinci-adopt": "bin/daveinci-adopt.js"
+  },
+  "files": [
+    "bin/",
+    "templates/",
+    "knowledge/",
+    "CLAUDE.md",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=16.7"
+  },
+  "scripts": {
+    "postinstall": "node -e \"console.log('\\n  daVinci workflow ready. Try: daveinci-generate <project-name>\\n')\""
+  },
+  "keywords": [
+    "claude-code",
+    "workflow",
+    "boilerplate",
+    "knowledge-base",
+    "scaffold"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/davecharm16/daveinci-ai-workflow-boilerplate.git"
+  },
+  "author": "davecharm16",
+  "license": "MIT"
+}
