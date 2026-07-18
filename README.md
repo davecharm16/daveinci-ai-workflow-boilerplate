@@ -39,22 +39,29 @@ and the `knowledge/` base. Build your app right inside it.
 
 ## Existing project (brownfield)
 
+Two ways — both end with the **`/brownfield-onboard` skill**, which reverse-engineers the code into the
+knowledge base (it ships in every shell's `.claude/skills/`).
+
+**Way 1 — generate a shell and paste your code in:**
 ```bash
-daveinci-adopt path/to/existing-repo
+daveinci-generate my-app
+mv ~/path/to/existing-project/* my-app/   # paste/move your code inside the shell
+cd my-app
+claude                                     # then run:  /brownfield-onboard
 ```
 
-Mechanically, and without touching your code:
-1. Adds the `knowledge/` skeleton (never overwrites existing files).
-2. Harvests existing rule/agent files (`.cursorrules`, Copilot instructions, old `CLAUDE.md`, `docs/`) into
-   `knowledge/_intake/`.
-3. Stages the workflow baseline + installs `knowledge/_intake/ADOPTION-PLAYBOOK.md`. If the repo had no
-   `CLAUDE.md`, a self-contained one is stamped; if it had one, it's left for you to merge.
-4. Runs `graphify --code-only` if available (on-device, no API key).
+**Way 2 — retrofit in place:**
+```bash
+daveinci-adopt path/to/existing-repo       # adds knowledge/ + .claude/, harvests old rules, no code touched
+cd path/to/existing-repo
+claude                                      # then run:  /brownfield-onboard
+```
 
-Then run the **reasoning pass** inside the repo — open Claude Code there and say *"Follow
-knowledge/_intake/ADOPTION-PLAYBOOK.md."* Claude merges the workflow into `CLAUDE.md` (your rules win on
-conflict), writes an architecture overview from the code graph, seeds the domain-features registry from
-what already ships, captures existing conventions, then deletes `_intake/`.
+The `/brownfield-onboard` skill then: fills the CLAUDE.md `Project status / Commands / Code layout` blocks
+from the real code, writes an architecture overview (via `graphify`), seeds the domain-features registry
+from what already ships (subagents in parallel), captures existing conventions, reconciles any old
+`.cursorrules`/`CLAUDE.md`, then cleans up. It anchors the knowledge base without documenting the whole
+system at once — the rest fills in incrementally as you work.
 
 ## What's in the shell
 

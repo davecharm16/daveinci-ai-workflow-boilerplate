@@ -79,9 +79,7 @@ if (fs.existsSync(path.join(target, 'docs'))) {
   fs.cpSync(path.join(target, 'docs'), path.join(INTAKE, 'existing-docs', 'docs'), { recursive: true });
 }
 
-// --- 3. install the synthesis playbook + the baseline (for the merge) -------
-fs.copyFileSync(path.join(PKG_ROOT, 'templates', 'brownfield-playbook.md'),
-  path.join(INTAKE, 'ADOPTION-PLAYBOOK.md'));
+// --- 3. stage the baseline (for the merge; the reasoning pass is the skill) --
 fs.copyFileSync(path.join(PKG_ROOT, 'templates', 'workflow-baseline.md'),
   path.join(INTAKE, 'workflow-baseline.md'));
 
@@ -119,6 +117,6 @@ try {
 console.log('\n✓ Mechanical adoption done. The repo now carries the daVinci shell (knowledge/ + workflow).');
 console.log('\nNext — the reasoning pass, inside the repo:');
 console.log(`  cd ${targetArg}`);
-console.log('  # open Claude Code, then: "Follow knowledge/_intake/ADOPTION-PLAYBOOK.md"');
+console.log('  # open Claude Code, then run:  /brownfield-onboard');
 console.log('  # Claude fills project facts, writes the architecture overview from the code graph,');
 console.log('  # seeds the domain-features registry, captures conventions, then deletes _intake/.\n');
