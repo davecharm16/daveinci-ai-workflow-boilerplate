@@ -40,6 +40,10 @@ log('→ adding knowledge/ skeleton (existing files preserved)');
 fs.cpSync(path.join(PKG_ROOT, 'knowledge'), path.join(target, 'knowledge'),
   { recursive: true, force: false, errorOnExist: false });
 
+log('→ adding .claude/ per-task enforcement hook (existing files preserved)');
+fs.cpSync(path.join(PKG_ROOT, '.claude'), path.join(target, '.claude'),
+  { recursive: true, force: false, errorOnExist: false });
+
 // --- 2. harvest existing rules + docs ---------------------------------------
 log('→ harvesting existing rules & docs into knowledge/_intake/');
 fs.mkdirSync(path.join(INTAKE, 'existing-rules'), { recursive: true });

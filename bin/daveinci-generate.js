@@ -38,6 +38,9 @@ fs.writeFileSync(path.join(dest, 'CLAUDE.md'), `${facts.trimEnd()}\n\n${baseline
 // knowledge base
 fs.cpSync(path.join(PKG_ROOT, 'knowledge'), path.join(dest, 'knowledge'), { recursive: true });
 
+// .claude/ — per-task enforcement hook (re-injects the workflow rules on every prompt)
+fs.cpSync(path.join(PKG_ROOT, '.claude'), path.join(dest, '.claude'), { recursive: true });
+
 try { execSync('git init -q', { cwd: dest, stdio: 'ignore' }); } catch { /* git optional */ }
 
 // --- report -----------------------------------------------------------------
@@ -45,6 +48,7 @@ const shown = path.relative(process.cwd(), dest) || dest;
 console.log(`\n✓ created shell "${shown}"`);
 console.log('  · CLAUDE.md    full workflow rules baked in + Project status/Commands/Code layout to fill');
 console.log('  · knowledge/   the knowledge base, ready to populate');
+console.log('  · .claude/     per-task hook that re-injects the rules on every prompt (accept trust once)');
 console.log(`\nNext: drop or build your project inside it —`);
 console.log(`  cd ${shown}`);
 console.log('  npx create-next-app .     # or move your existing app files in here\n');

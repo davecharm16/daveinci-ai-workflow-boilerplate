@@ -10,6 +10,7 @@
 !/bin/
 !/templates/
 !/knowledge/
+!/.claude/
 
 # node (in case the boilerplate itself ever installs deps)
 node_modules/
